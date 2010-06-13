@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 {
     if ( argc > 1 )
     {
-      textMode( argc , argv[] );
+      textMode( argc , argv );
     }
     QApplication a(argc, argv);
     Crack w;

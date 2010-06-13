@@ -1,4 +1,4 @@
-#include "crack.h"
+#include "Crack.h"
 #include "unknown.h"
 #include <time.h>
 #include <string.h>
@@ -59,15 +59,15 @@ void crack( uint32_t essid )
   std::ostringstream out;
   int n = sizeof(dic)/sizeof("AAA");
 
-  #pragma omp parallel private( input , message_digest , ptr ,   )
-  //{
+  #pragma omp parallel
+  {
   uint8_t message_digest[SHA_DIGEST_LENGTH];
   char unknown[7] , input[13] , result[10];
   SHA_CTX sha1;
   input[0] = 'C';
   input[1] = 'P';
   uint32_t * ptr = (uint32_t *)malloc(sizeof(uint32_t));
- // #pragma omp for
+   #pragma omp for
   for(int i = 0 ; i < n; ++i)
   {
    sprintf( unknown , "%02X%02X%02X" , (int)dic[i][0]
@@ -124,8 +124,9 @@ void crack( uint32_t essid )
      }
    }
   }
-//  }
   free(ptr);
+
+  }
   printf(  "time: %d\n" , (int)(time(NULL) - begin) );
 }
 

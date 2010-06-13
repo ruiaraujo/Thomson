@@ -2,18 +2,17 @@
  * BruteForce.cpp
  *
  *  Created on: 2010/06/13
- *      Author: ruka
+ *      Author: Rui Araújo
  */
 
 #include "BruteForce.h"
 
-BruteForce::BruteForce()
+BruteForce::BruteForce( uint32_t essid) : QThread()
 {
-  // TODO Auto-generated constructor stub
-
+  this->essid = essid;
 }
 
-BruteForce::~BruteForce()
+void BruteForce::run()
 {
-  // TODO Auto-generated destructor stub
+
 }
