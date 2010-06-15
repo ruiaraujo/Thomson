@@ -9,7 +9,7 @@ SOURCES += Crack.cpp \
     BruteForce.cpp \
     main.cpp
 FORMS += crack.ui
-RESOURCES += 
+RESOURCES += icon.qrc
 LIBS += -lcrypto \
     -lgomp
 QMAKE_CXXFLAGS += -fopenmp \

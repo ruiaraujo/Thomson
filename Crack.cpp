@@ -1,4 +1,4 @@
-#include "Crack.h"
+  #include "Crack.h"
 #include <QVector>
 #include <QString>
 #include <cstdio>
@@ -6,6 +6,7 @@
 Crack::Crack(QWidget *parent)
     : QWidget(parent) , running(false)  , finder(NULL)
 {
+    setWindowIcon(QIcon(":/icon.ico"));
     setupUi(this);
     QRegExp rx("[a-fA-F0-9]{6}");
     QValidator *validator = new QRegExpValidator(rx, this);
