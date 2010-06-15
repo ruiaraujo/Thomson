@@ -1,5 +1,5 @@
 TEMPLATE = app
-TARGET = crack
+TARGET = thomson
 QT += core \
     gui
 HEADERS += Crack.h \
@@ -10,8 +10,7 @@ SOURCES += Crack.cpp \
     main.cpp
 FORMS += crack.ui
 RESOURCES += 
-LIBS += -lssl \
-    -lgomp \
-    -fopenmp
+LIBS += -lcrypto \
+    -lgomp
 QMAKE_CXXFLAGS += -fopenmp \
     -O3

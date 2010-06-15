@@ -2,11 +2,9 @@
 #define CRACK_H
 
 #include <QtGui/QWidget>
-#include <QFutureWatcher>
 #include <stdint.h>
 #include "ui_crack.h"
-#include <QTextStream>
-
+#include "BruteForce.h"
 
 class Crack : public QWidget, public Ui::CrackClass
 {
@@ -19,14 +17,13 @@ public:
 private slots:
         void process();
         void finished();
+        void updateProgress();
 
 private:
-        QFutureWatcher<void> watcher;
         bool running;
-
+        BruteForce * finder;
 };
 
-extern void crack( uint32_t essid );
 
 
 #endif // CRACK_H

@@ -1,3 +1,3 @@
 all: main.cpp
-	g++ -o crack -O3 -Wall  main.cpp -lcrypto -fopenmp
+	g++ -o crack -Wall  main.cpp -lcrypto -fopenmp -O3
 

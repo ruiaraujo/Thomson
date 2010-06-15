@@ -10,17 +10,23 @@
 
 #include <stdint.h>
 #include <QThread>
+#include <QVector>
 
 class BruteForce : public QThread
 {
+    Q_OBJECT
   public:
     BruteForce(uint32_t) ;
-    virtual ~BruteForce(){}
-  private:
-    uint32_t essid;
-
+    ~BruteForce(){}
+    void generate(uint32_t);
+    QVector<QString> getResults();
+  signals:
+    void updateBar();
   protected:
     void run();
+  private:
+    uint32_t essid;
+    QVector<QString> results;
 } ;
 
 #endif /* BRUTEFORCE_H_ */
