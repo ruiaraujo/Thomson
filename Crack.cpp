@@ -41,7 +41,7 @@ void Crack::process()
     connect( finder, SIGNAL(finished()),  this , SLOT(finished()));
     connect( finder, SIGNAL(updateBar()),  this , SLOT(updateProgress()));
   }
-
+  this->progressBar->setValue(0);
   finder->generate(essid);
 }
 
