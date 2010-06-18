@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>308</width>
-    <height>209</height>
+    <width>314</width>
+    <height>233</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -19,93 +19,171 @@
   <property name="windowTitle">
    <string>Thompson Crack</string>
   </property>
+  <widget class="QProgressBar" name="progressBar">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>150</y>
+     <width>271</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>121</width>
+     <height>30</height>
+    </size>
+   </property>
+   <property name="value">
+    <number>0</number>
+   </property>
+   <property name="invertedAppearance">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="calc">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>190</y>
+     <width>91</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>121</width>
+     <height>31</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>Calculate</string>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
+   <property name="default">
+    <bool>false</bool>
+   </property>
+   <property name="flat">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="closeButton">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>190</y>
+     <width>81</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Close</string>
+   </property>
+  </widget>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>20</y>
-     <width>260</width>
-     <height>171</height>
+     <y>11</y>
+     <width>271</width>
+     <height>29</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0">
-     <widget class="QProgressBar" name="progressBar">
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>ESSID</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="lineEdit">
       <property name="minimumSize">
        <size>
-        <width>121</width>
-        <height>30</height>
+        <width>91</width>
+        <height>27</height>
        </size>
       </property>
-      <property name="value">
-       <number>0</number>
-      </property>
-      <property name="invertedAppearance">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QPushButton" name="calc">
       <property name="maximumSize">
        <size>
-        <width>121</width>
-        <height>31</height>
+        <width>89</width>
+        <height>27</height>
        </size>
       </property>
-      <property name="text">
-       <string>Calculate</string>
-      </property>
-      <property name="autoDefault">
-       <bool>false</bool>
-      </property>
-      <property name="default">
-       <bool>false</bool>
-      </property>
-      <property name="flat">
-       <bool>false</bool>
+      <property name="maxLength">
+       <number>6</number>
       </property>
      </widget>
     </item>
-    <item row="0" column="0" colspan="2">
-     <layout class="QFormLayout" name="formLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>ESSID</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="lineEdit">
-        <property name="minimumSize">
-         <size>
-          <width>113</width>
-          <height>27</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>113</width>
-          <height>27</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>6</number>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="QTextBrowser" name="output"/>
-      </item>
-     </layout>
+    <item>
+     <widget class="QCheckBox" name="singleYear">
+      <property name="text">
+       <string>Year</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QSpinBox" name="spinboxYear">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="suffix">
+       <string notr="true"/>
+      </property>
+      <property name="prefix">
+       <string notr="true"/>
+      </property>
+      <property name="minimum">
+       <number>2004</number>
+      </property>
+      <property name="maximum">
+       <number>2010</number>
+      </property>
+      <property name="value">
+       <number>2004</number>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
-  <zorder>layoutWidget</zorder>
-  <zorder></zorder>
+  <widget class="QTextBrowser" name="output">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>50</y>
+     <width>271</width>
+     <height>98</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>singleYear</tabstop>
+  <tabstop>spinboxYear</tabstop>
+  <tabstop>output</tabstop>
+ </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>closeButton</sender>
+   <signal>clicked()</signal>
+   <receiver>CrackClass</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>232</x>
+     <y>200</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>321</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

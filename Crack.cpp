@@ -11,11 +11,12 @@ Crack::Crack(QWidget *parent)
     QRegExp rx("[a-fA-F0-9]{6}");
     QValidator *validator = new QRegExpValidator(rx, this);
     lineEdit->setValidator(validator);
-    connect( calc , SIGNAL( clicked() ), this , SLOT(process()) );
-    connect( lineEdit , SIGNAL( returnPressed() ), this , SLOT(process()) );
+    connect( calc , SIGNAL( clicked() ), this , SLOT(processEssid()) );
+    connect( lineEdit , SIGNAL( returnPressed() ), this , SLOT(processEssid()) );
+    connect( singleYear , SIGNAL( clicked() ), this , SLOT( setYear() ) );
 }
 
-void Crack::process()
+void Crack::processEssid()
 {
   int pos;
   QString input = lineEdit->text();
@@ -31,7 +32,16 @@ void Crack::process()
   }
   else
     if ( !running )
-      output->setText("Calculating...");
+    {
+        output->setText("Calculating...");
+        if (  this->singleYear->isChecked()  )
+        {
+          char year[5];
+          sprintf( year , "%d" , this->spinboxYear->value() );
+          output->append("Warning: Calculating only for routers from ");
+          output->append(QString(year));
+        }
+    }
     else
       output->setText("Already running!");
   this->running = true;
@@ -43,7 +53,10 @@ void Crack::process()
     connect( finder, SIGNAL(updateBar()),  this , SLOT(updateProgress()));
   }
   this->progressBar->setValue(0);
-  finder->generate(essid);
+  if ( this->singleYear->isChecked() )
+    finder->generate(essid , this->spinboxYear->value() - 2000 );
+  else
+    finder->generate(essid );
 }
 
 void Crack::finished()
@@ -69,6 +82,13 @@ void Crack::updateProgress()
   this->progressBar->setValue(this->progressBar->value()+1);
 }
 
+void Crack::setYear()
+{
+  if ( this->singleYear->isChecked() )
+    this->spinboxYear->setEnabled(true);
+  else
+    this->spinboxYear->setEnabled(false);
+}
 
 Crack::~Crack()
 {

@@ -15,9 +15,10 @@ public:
     ~Crack();
 
 private slots:
-        void process();
+        void processEssid();
         void finished();
         void updateProgress();
+        void setYear();
 
 private:
         bool running;

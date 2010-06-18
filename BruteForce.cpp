@@ -10,17 +10,40 @@
 #include <cstdlib>
 #include <cstdio>
 #include <openssl/sha.h>
-#define BEGIN_YEAR 4
-#define FINAL_YEAR 10
 
 
-BruteForce::BruteForce( uint32_t essid) : QThread() , results()
+BruteForce::BruteForce( uint32_t essid) : QThread() , results() , year_begin(4),
+                                          year_end(10)
 {
   this->essid = essid;
 }
 
+BruteForce::BruteForce( uint32_t essid , int year ) : QThread() , results()
+{
+  this->essid = essid;
+  if ( year > 2000 )
+    this->year_begin = this->year_end = year - 2000;
+  else
+    this->year_begin = this->year_end = year;
+}
+
+
 void BruteForce::generate( uint32_t essid )
 {
+  this->essid = essid;
+  this->results.clear();
+  if (!isRunning())
+           start(TimeCriticalPriority);
+}
+
+
+
+void BruteForce::generate( uint32_t essid , int year )
+{
+  if ( year > 2000 )
+    this->year_begin = this->year_end = year - 2000;
+  else
+    this->year_begin = this->year_end = year;
   this->essid = essid;
   this->results.clear();
   if (!isRunning())
@@ -45,7 +68,7 @@ void BruteForce::run()
                                   , (int)dic[i][1], (int)dic[i][2] );
           if ( i % ( n / 100 ) == 0 )
             emit updateBar();
-          for ( int year = BEGIN_YEAR ; year <= FINAL_YEAR ; ++year )
+          for ( int year = this->year_begin ; year <= this->year_end ; ++year )
           {
               for ( int week = 1 ; week <= 52 ; ++week )
               {
