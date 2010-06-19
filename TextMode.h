@@ -12,8 +12,8 @@ class TextMode
 {
   public:
     TextMode() ;
-    virtual
-    ~TextMode() ;
+    int exec(int argc, char *argv[]);
+    virtual ~TextMode(){}
 } ;
 
 #endif /* TEXTMODE_H_ */
