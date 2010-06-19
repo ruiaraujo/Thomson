@@ -43,7 +43,10 @@ void GraphicMode::processEssid()
         }
     }
     else
+    {
       output->setText("Already running!");
+      return;
+    }
   this->running = true;
   uint32_t essid = input.toInt(NULL , 16 );
   if (  finder == NULL )
