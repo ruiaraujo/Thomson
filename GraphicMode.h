@@ -6,13 +6,13 @@
 #include "ui_crack.h"
 #include "BruteForce.h"
 
-class Crack : public QWidget, public Ui::CrackClass
+class GraphicMode : public QWidget, public Ui::CrackClass
 {
     Q_OBJECT
 
 public:
-    Crack(QWidget *parent = 0);
-    ~Crack();
+    GraphicMode(QWidget *parent = 0);
+    ~GraphicMode();
 
 private slots:
         void processEssid();

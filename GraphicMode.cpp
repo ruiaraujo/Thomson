@@ -1,9 +1,9 @@
-  #include "Crack.h"
+ #include "GraphicMode.h"
 #include <QVector>
 #include <QString>
 #include <cstdio>
 
-Crack::Crack(QWidget *parent)
+GraphicMode::GraphicMode(QWidget *parent)
     : QWidget(parent) , running(false)  , finder(NULL)
 {
     setWindowIcon(QIcon(":/icon.ico"));
@@ -16,7 +16,7 @@ Crack::Crack(QWidget *parent)
     connect( singleYear , SIGNAL( clicked() ), this , SLOT( setYear() ) );
 }
 
-void Crack::processEssid()
+void GraphicMode::processEssid()
 {
   int pos;
   QString input = lineEdit->text();
@@ -59,30 +59,28 @@ void Crack::processEssid()
     finder->generate(essid );
 }
 
-void Crack::finished()
+void GraphicMode::finished()
 {
   running = false;
   output->setText("Calculation finished!");
 
   QVector<QString> result = finder->getResults();
   if ( result.size() == 0 )
-    output->append("No Keys found...");
+    output->append("No Keys were found...");
   else
   {
-    output->append("Keys found!");
+    output->append("Found Keys!");
     for ( int i = 0; i < result.size() ; ++i )
       output->append(result.at(i));
   }
-  delete finder;
-  finder = NULL;
 }
 
-void Crack::updateProgress()
+void GraphicMode::updateProgress()
 {
   this->progressBar->setValue(this->progressBar->value()+1);
 }
 
-void Crack::setYear()
+void GraphicMode::setYear()
 {
   if ( this->singleYear->isChecked() )
     this->spinboxYear->setEnabled(true);
@@ -90,7 +88,7 @@ void Crack::setYear()
     this->spinboxYear->setEnabled(false);
 }
 
-Crack::~Crack()
+GraphicMode::~GraphicMode()
 {
 
 }

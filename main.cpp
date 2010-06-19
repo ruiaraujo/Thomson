@@ -1,4 +1,4 @@
-#include "Crack.h"
+#include "GraphicMode.h"
 
 #include <QtGui>
 #include <QApplication>
@@ -10,6 +10,9 @@
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
+#define BEGIN_YEAR 4
+#define FINAL_YEAR 10
+#include <stdint.h>
 
 int textMode(int argc, char *argv[]);
 
@@ -23,23 +26,13 @@ int main(int argc, char *argv[])
     if ( result != 0 )
     {
       QApplication a(argc, argv);
-      Crack w;
+      GraphicMode w;
       w.show();
       return a.exec();
     }
     return 0;
 }
-#define BEGIN_YEAR 4
-#define FINAL_YEAR 10
-#include <time.h>
-#include <string.h>
-#include <openssl/sha.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdint.h>
-#include <omp.h>
-#include <sys/times.h>
-#include <unistd.h>
+
 
 
 int textMode(int argc, char *argv[])

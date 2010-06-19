@@ -2,10 +2,12 @@ TEMPLATE = app
 TARGET = thomson
 QT += core \
     gui
-HEADERS += Crack.h \
+HEADERS += TextMode.h \
+    GraphicMode.h \
     BruteForce.h \
     unknown.h
-SOURCES += Crack.cpp \
+SOURCES += TextMode.cpp \
+    GraphicMode.cpp \
     BruteForce.cpp \
     main.cpp
 FORMS += crack.ui
