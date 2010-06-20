@@ -14,12 +14,26 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <omp.h>
-#include <sys/times.h>
-#include <unistd.h>
+#include <ctype.h>
 
 #define ESSID 0xF85B17
 #define BEGIN_YEAR 4
 #define FINAL_YEAR 10
+
+int validInput( char * input )
+{
+  int i = 0;
+  if ( input[0] == '0' &&  ( input[1] == 'x' ||input[1] == 'X')  )
+    input += 2;
+  int n = strlen( input );
+  if ( n > 6 )
+    return 0;
+
+  for ( ;  i < n ; ++i)
+    if ( !isxdigit( input[i] ) )
+      return 0;
+  return 1;
+}
 
 int main( int argc  , char * argv[] )
 {
@@ -30,7 +44,13 @@ int main( int argc  , char * argv[] )
     long ticks;
     ticks = sysconf(_SC_CLK_TCK);
     if ( argc > 1 )
+    {
+      if ( validInput(argv[1] ) != 0 )
         essid = (uint32_t)strtol(argv[1] , NULL , 16);
+      else
+        printf("Error when parsing: %s! "
+                "Please only insert the hexadecimal part!\n" , argv[1]);
+    }
     if ( essid == 0 )
     {
         essid = ESSID;
@@ -39,21 +59,23 @@ int main( int argc  , char * argv[] )
     start = times(&t);
     #pragma omp parallel
     {
-        uint8_t message_digest[SHA_DIGEST_LENGTH];
+        uint8_t message_digest[20];
+        int year = BEGIN_YEAR;
+        int week = 1;
+        int i = 0 ;
         char unknown[7]= "123456";
         char input[13];
-        SHA_CTX sha1;
         input[0] = 'C';
         input[1] = 'P';
         uint32_t * ptr = (uint32_t *)malloc(sizeof(uint32_t));
         #pragma omp for
-        for( int i = 0 ; i < n; ++i  )
+        for( i = 0 ; i < n; ++i  )
         {
             sprintf( unknown , "%02X%02X%02X" , (int)dic[i][0]
                                     , (int)dic[i][1], (int)dic[i][2] );        
-            for ( int year = BEGIN_YEAR ; year <= FINAL_YEAR ; ++year )
+            for ( year = BEGIN_YEAR ; year <= FINAL_YEAR ; ++year )
             {
-                for ( int week = 1 ; week <= 52 ; ++week )
+                for ( week = 1 ; week <= 52 ; ++week )
                 {
                     input[2] = '0' + year/10;
                     input[3] = '0' + year % 10 ;
