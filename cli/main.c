@@ -5,6 +5,7 @@
  *      Author: ruka
  */
  
+#include <ctype.h>
 #include <time.h>
 #include <string.h>
 #include <openssl/evp.h>
@@ -15,6 +16,11 @@
 #include <stdint.h>
 #include <omp.h>
 #include <ctype.h>
+
+#ifdef __unix__
+#include <sys/times.h>
+#include <unistd.h>
+#endif
 
 #define ESSID 0xF85B17
 #define BEGIN_YEAR 4
@@ -38,11 +44,13 @@ int validInput( char * input )
 int main( int argc  , char * argv[] )
 {
     int n = sizeof(dic)/sizeof("AAA");
-    clock_t start, end;
     uint32_t essid = 0;
+#ifdef __unix__
     struct tms t;
+    clock_t start, end;
     long ticks;
     ticks = sysconf(_SC_CLK_TCK);
+#endif
     if ( argc > 1 )
     {
       if ( validInput(argv[1] ) != 0 )
@@ -56,7 +64,9 @@ int main( int argc  , char * argv[] )
         essid = ESSID;
         printf("Warning: Using default essid - 0x%X\n" , essid);
     }
+#ifdef __unix__
     start = times(&t);
+#endif
     #pragma omp parallel
     {
         uint8_t message_digest[20];
@@ -108,9 +118,11 @@ int main( int argc  , char * argv[] )
             }
         }
     }
+#ifdef __unix__
     end = times(&t);                            /* fim da medição de tempo */
     printf("Clock:           %4.4f s\n", (double)(end-start)/ticks);
     printf("User time:       %4.4f s\n", (double)t.tms_utime/ticks);
     printf("System time:     %4.4f s\n", (double)t.tms_stime/ticks);
+#endif
     return 0;
 }
