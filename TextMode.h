@@ -2,7 +2,7 @@
  * TextMode.h
  *
  *  Created on: 2010/06/19
- *      Author: ruka
+ *      Author: Rui Araújo
  */
 
 #ifndef TEXTMODE_H_
@@ -14,6 +14,8 @@ class TextMode
     TextMode() ;
     int exec(int argc, char *argv[]);
     virtual ~TextMode(){}
+  private:
+    bool validInput( char * input );
 } ;
 
 #endif /* TEXTMODE_H_ */

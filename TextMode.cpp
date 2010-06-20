@@ -2,22 +2,29 @@
  * TextMode.cpp
  *
  *  Created on: 2010/06/19
- *      Author: ruka
+ *      Author: Rui Araújo
  */
-#include "GraphicMode.h"
-
 #include "TextMode.h"
 #include <openssl/sha.h>
 #include <omp.h>
 #include "unknown.h"
-#include <unistd.h>
+#include <ctime>
+#include <stdint.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cctype>
+#include <cstring>
+
+#ifdef __unix__
 #include <sys/times.h>
-#include <time.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <unistd.h>
+#endif
+
+
 #define BEGIN_YEAR 4
 #define FINAL_YEAR 10
-#include <stdint.h>
+
+
 
 TextMode::TextMode()
 {
@@ -29,12 +36,15 @@ TextMode::TextMode()
 int TextMode::exec(int argc, char *argv[])
 {
   int n = sizeof(dic)/sizeof("AAA");
-   clock_t start, end;
    uint32_t essid = 0;
-   struct tms t;
-   long ticks;
-   ticks = sysconf(_SC_CLK_TCK);
+#ifdef __unix__
+    struct tms t;
+    clock_t start, end;
+    long ticks;
+    ticks = sysconf(_SC_CLK_TCK);
+#endif
    if ( argc > 1 )
+     if ( this->validInput( argv[1]) )
        essid = (uint32_t)strtol(argv[1] , NULL , 16);
    if ( essid == 0 )
    {
@@ -42,7 +52,9 @@ int TextMode::exec(int argc, char *argv[])
                "Launching Graphical Interface..." , argv[1]);
        return 1;
    }
-   start = times(&t);
+#ifdef __unix__
+    start = times(&t);
+#endif
    #pragma omp parallel
    {
        uint8_t message_digest[SHA_DIGEST_LENGTH];
@@ -92,9 +104,28 @@ int TextMode::exec(int argc, char *argv[])
            }
        }
    }
-   end = times(&t);                            /* fim da medição de tempo */
-   printf("Clock:           %4.4f s\n", (double)(end-start)/ticks);
-   printf("User time:       %4.4f s\n", (double)t.tms_utime/ticks);
-   printf("System time:     %4.4f s\n", (double)t.tms_stime/ticks);
-   return 0;
+#ifdef __unix__
+    end = times(&t);                            /* fim da medição de tempo */
+    printf("Clock:           %4.4f s\n", (double)(end-start)/ticks);
+    printf("User time:       %4.4f s\n", (double)t.tms_utime/ticks);
+    printf("System time:     %4.4f s\n", (double)t.tms_stime/ticks);
+#endif
+    return 0;
+}
+
+
+
+bool TextMode::validInput( char * input )
+{
+  int i = 0;
+  if ( input[0] == '0' &&  ( input[1] == 'x' ||input[1] == 'X')  )
+    input += 2;
+  int n = strlen( input );
+  if ( n > 6 )
+    return false;
+
+  for ( ;  i < n ; ++i)
+    if ( !isxdigit( input[i] ) )
+      return 0;
+  return true;
 }
