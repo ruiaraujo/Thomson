@@ -7,7 +7,7 @@
  */
 
 /* this is only to get definitions for memcpy(), ntohl() and htonl() */
-#include "../git-compat-util.h"
+#include "util.h"
 
 #include "sha1.h"
 
@@ -54,7 +54,7 @@
  * the stack frame size simply explode and performance goes down the drain.
  */
 
-#if defined(__i386__) || defined(__x86_64__)
+#if defined(__i386__) || defined(__x86_64__) || defined(i386)
   #define setW(x, val) (*(volatile unsigned int *)&W(x) = (val))
 #elif defined(__GNUC__) && defined(__arm__)
   #define setW(x, val) do { W(x) = (val); __asm__("":::"memory"); } while (0)
@@ -72,7 +72,7 @@
 #if defined(__i386__) || defined(__x86_64__) || \
     defined(__ppc__) || defined(__ppc64__) || \
     defined(__powerpc__) || defined(__powerpc64__) || \
-    defined(__s390__) || defined(__s390x__)
+    defined(__s390__) || defined(__s390x__) || defined(i386)
 
 #define get_be32(p)	ntohl(*(unsigned int *)(p))
 #define put_be32(p, v)	do { *(unsigned int *)(p) = htonl(v); } while (0)
@@ -243,7 +243,7 @@ void blk_SHA1_Update(blk_SHA_CTX *ctx, const void *data, unsigned long len)
 	/* Read the data into W and process blocks as they get full */
 	if (lenW) {
 		int left = 64 - lenW;
-		if (len < left)
+		if ((int)len < left)
 			left = len;
 		memcpy(lenW + (char *)ctx->W, data, left);
 		lenW = (lenW + left) & 63;
@@ -254,7 +254,7 @@ void blk_SHA1_Update(blk_SHA_CTX *ctx, const void *data, unsigned long len)
 		blk_SHA1_Block(ctx, ctx->W);
 	}
 	while (len >= 64) {
-		blk_SHA1_Block(ctx, data);
+		blk_SHA1_Block(ctx, (const unsigned int *)data);
 		data = ((const char *)data + 64);
 		len -= 64;
 	}
