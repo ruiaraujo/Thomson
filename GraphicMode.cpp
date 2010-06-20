@@ -20,6 +20,16 @@ void GraphicMode::processEssid()
 {
   int pos;
   QString input = lineEdit->text();
+  if ( this->running )
+  {
+    finder->stop();
+    output->setText("Cancelled!");
+    getResults();
+    calc->setText("Calculate");
+    this->running = false;
+    return;
+  }
+
   if ( input.isEmpty() )
   {
       output->setText("ESSID code empty!");
@@ -31,23 +41,18 @@ void GraphicMode::processEssid()
     return;
   }
   else
-    if ( !running )
-    {
-        output->setText("Calculating...");
-        if (  this->singleYear->isChecked()  )
-        {
-          char year[5];
-          sprintf( year , "%d" , this->spinboxYear->value() );
-          output->append("Warning: Calculating only for routers from ");
-          output->append(QString(year));
-        }
-    }
-    else
-    {
-      output->setText("Already running!");
-      return;
-    }
+  {
+      output->setText("Calculating...");
+      if (  this->singleYear->isChecked()  )
+      {
+        char year[5];
+        sprintf( year , "%d" , this->spinboxYear->value() );
+        output->append("Warning: Calculating only for routers from ");
+        output->append(QString(year));
+      }
+  }
   this->running = true;
+  calc->setText("Cancel");
   uint32_t essid = input.toInt(NULL , 16 );
   if (  finder == NULL )
   {
@@ -66,18 +71,25 @@ void GraphicMode::finished()
 {
   running = false;
   output->setText("Calculation finished!");
+  calc->setText("Calculate");
+  getResults();
 
-  QVector<QString> result = finder->getResults();
-  if ( result.size() == 0 )
-    output->append("No Keys were found...");
-  else
-  {
-    output->append("Found Keys!");
-    for ( int i = 0; i < result.size() ; ++i )
-      output->append(result.at(i));
-  }
 }
 
+void GraphicMode::getResults()
+{
+  if ( finder == NULL )
+    return;
+  QVector<QString> result = finder->getResults();
+    if ( result.size() == 0 )
+      output->append("No Keys were found...");
+    else
+    {
+      output->append("Found Keys!");
+      for ( int i = 0; i < result.size() ; ++i )
+        output->append(result.at(i));
+    }
+}
 void GraphicMode::updateProgress()
 {
   this->progressBar->setValue(this->progressBar->value()+1);
