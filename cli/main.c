@@ -70,6 +70,7 @@ int main( int argc  , char * argv[] )
     #pragma omp parallel
     {
         uint8_t message_digest[20];
+        SHA_CTX sha1;
         int year = BEGIN_YEAR;
         int week = 1;
         int i = 0 ;
@@ -92,7 +93,6 @@ int main( int argc  , char * argv[] )
                     input[4] = '0' + week / 10;
                     input[5] = '0' + week % 10;
                     strcpy( input + 6 , unknown);
-                    //printf( "input= %s" , input );
                     SHA1_Init(&sha1);
                     SHA1_Update(&sha1 ,(const void *) input , 12 );
                     SHA1_Final(message_digest , &sha1 );
