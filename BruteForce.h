@@ -19,9 +19,9 @@ class BruteForce : public QThread
     BruteForce( uint32_t essid) ;
     BruteForce( uint32_t essid , int year ) ;
     virtual ~BruteForce(){}
-    void generate(uint32_t essid);
-    void generate(uint32_t essid , int year);
+    void generate(uint32_t essid , int year = 0);
     QVector<QString> getResults();
+    void stop();
   signals:
     void updateBar();
   protected:
@@ -31,6 +31,7 @@ class BruteForce : public QThread
     QVector<QString> results;
     int year_begin;
     int year_end;
+    bool running;
 } ;
 
 #endif /* BRUTEFORCE_H_ */

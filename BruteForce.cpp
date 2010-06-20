@@ -13,12 +13,12 @@
 
 
 BruteForce::BruteForce( uint32_t essid) : QThread() , results() , year_begin(4),
-                                          year_end(10)
+                                          year_end(10) , running(false)
 {
   this->essid = essid;
 }
 
-BruteForce::BruteForce( uint32_t essid , int year ) : QThread() , results()
+BruteForce::BruteForce( uint32_t essid , int year ) : QThread() , results(), running(false)
 {
   this->essid = essid;
   if ( year > 2000 )
@@ -28,26 +28,27 @@ BruteForce::BruteForce( uint32_t essid , int year ) : QThread() , results()
 }
 
 
-void BruteForce::generate( uint32_t essid )
+void BruteForce::stop()
 {
-  this->essid = essid;
-  this->results.clear();
-  if (!isRunning())
-           start(TimeCriticalPriority);
+  this->running = false;
 }
-
-
 
 void BruteForce::generate( uint32_t essid , int year )
 {
-  if ( year > 2000 )
+  if ( year != 0 )
+  {
+    if ( year > 2000 )
     this->year_begin = this->year_end = year - 2000;
-  else
-    this->year_begin = this->year_end = year;
+    else
+      this->year_begin = this->year_end = year;
+  }
   this->essid = essid;
   this->results.clear();
   if (!isRunning())
-           start(TimeCriticalPriority);
+  {
+    this->running = true;
+    start(TimeCriticalPriority);
+  }
 }
 
 void BruteForce::run()
@@ -64,6 +65,8 @@ void BruteForce::run()
       uint32_t * ptr = (uint32_t *)malloc(sizeof(uint32_t));
       for( int i = 0 ; i < n; ++i  )
       {
+        if ( !running )
+          return;
           sprintf( unknown , "%02X%02X%02X" , (int)dic[i][0]
                                   , (int)dic[i][1], (int)dic[i][2] );
           if ( i % ( n / 100 ) == 0 )
@@ -101,6 +104,7 @@ void BruteForce::run()
           }
       }
   }
+  this->running = false;
   return;
 }
 
