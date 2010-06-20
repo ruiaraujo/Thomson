@@ -21,6 +21,7 @@ private slots:
         void setYear();
 
 private:
+        void getResults();
         bool running;
         BruteForce * finder;
 };
