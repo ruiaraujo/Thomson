@@ -1,4 +1,4 @@
- #include "GraphicMode.h"
+#include "GraphicMode.h"
 #include <QVector>
 #include <QString>
 #include <cstdio>

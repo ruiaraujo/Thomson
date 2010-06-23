@@ -11,6 +11,8 @@
 #include <cstdio>
 #include <openssl/sha.h>
 
+#define YEAR_BEGIN 4
+#define YEAR_END 10
 
 BruteForce::BruteForce( uint32_t essid) : QThread() , results() , year_begin(4),
                                           year_end(10) , running(false)
@@ -41,6 +43,11 @@ void BruteForce::generate( uint32_t essid , int year )
     this->year_begin = this->year_end = year - 2000;
     else
       this->year_begin = this->year_end = year;
+  }
+  else
+  {
+    this->year_begin = YEAR_BEGIN;
+    this->year_end = YEAR_END;
   }
   this->essid = essid;
   this->results.clear();
