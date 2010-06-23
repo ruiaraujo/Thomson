@@ -1,0 +1,20 @@
+Thomson Crack
+
+
+Graphical Interface:
+
+Compiling instructions:
+Run:
+qmake thomson.pro
+make
+
+You should have a thomson program in the root directory.
+
+
+Old CLI Interface (Faster because it uses OPENMP)
+Run:
+cd cli/
+make
+
+You should have a thomson program in the cli directory
+
