@@ -1,2 +1,2 @@
 all: main.c sha1.c
-	gcc -o crack -Wall  main.c sha1.c -fopenmp -O2
+	gcc -o thomson -Wall  main.c sha1.c -fopenmp -O3
